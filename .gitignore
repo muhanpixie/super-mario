@@ -1,0 +1,6 @@
+.idea/
+*.swp
+*.py[cod]
+.data/
+.DS_Store
+/secure
