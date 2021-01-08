@@ -1,11 +1,11 @@
 from src import setup
 from src.game import Game
-from src.states import main_menu
+# from src.states import main_menu, load_screen, level
 
 def main():
-    game = Game()
-    state = main_menu.MainMenu()
-    game.run(state)
+    state = setup.states['main_menu']
+    game = Game(state)
+    game.run()
 
 if __name__ == '__main__':
     main()

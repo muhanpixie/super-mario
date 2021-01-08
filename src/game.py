@@ -4,28 +4,34 @@ import pygame as pg
 from . import cfg, setup
 
 class Game:
-    def __init__(self):
+    def __init__(self, state):
         self.screen = setup.screen
         self.clock = setup.clock
         self.keys = pg.key.get_pressed()
+        self.state = state
 
-    def run(self, state):
+    def update(self):
+        if self.state.done:
+            next_state = self.state.next
+            self.state.done = False
+            self.state = setup.states[next_state]
+        self.state.update(self.screen, self.keys)
+
+    def run(self):
         while 1:
             for e in pg.event.get():
                 keys = pg.key.get_pressed()
                 if e.type == pg.QUIT:
                     return
-                elif e.type == pg.KEYDOWN:
+                elif e.type == pg.KEYDOWN or e.type == pg.KEYUP:
                     self.keys = keys
                     if keys[pg.K_ESCAPE]:
                         return
-                elif e.type == pg.KEYUP:
-                    self.keys = keys
             self.screen.fill((0,23,122))
-            state.update(self.screen, keys)
+            self.update()
 
             pg.display.update()
-            self.clock.tick(10)
+            self.clock.tick(30)
 
 
 def load_all_images(path, accept=(".jpg",".png")):
